@@ -16,5 +16,8 @@
     "express": "^4.17.2",
     "mongoose": "^5.13.14",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "slugify": "^1.6.5"
   }
 }
