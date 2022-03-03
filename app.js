@@ -46,6 +46,7 @@ app.use(mongoSanitize());
 //prevent from some html xs attacks
 app.use(xss());
 
+// whitelist the tag of query so that duplicate will allow
 app.use(hpp({
     whitelist: ['duration', 'price', 'difficulty']
 }))
