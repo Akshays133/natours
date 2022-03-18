@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const rateLimit = require('express-rate-limit')
@@ -5,16 +6,22 @@ const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 const hpp = require('hpp')
+const cookieParser = require('cookie-parser')
 
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
 const tourRouter = require('./routes/tourRoutes')
 const userRouter = require('./routes/userRoutes')
 const reviewRouter = require('./routes/reviewRoutes')
+const viewRouter = require('./routes/viewRoutes')
 
 const app = express()
 
 //GLOBAL MIDDLEWARE
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+
 // Add secure header to the request
 app.use(helmet())
 
@@ -23,7 +30,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 //Serve static file for query
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use((req, res, next) => {
 //     console.log('Hello from middleware ')
@@ -40,6 +47,7 @@ app.use('/api', limiter)
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 //It prevent from some unwanted mongo $ sign error 
 app.use(mongoSanitize());
@@ -55,10 +63,12 @@ app.use(hpp({
 //Todat date and time stamp at header
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
+    // console.log(req.cookies);
     next();
 })
 
 // ROUTES
+app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/reviews', reviewRouter)
