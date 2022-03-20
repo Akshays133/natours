@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 const hpp = require('hpp')
 const cookieParser = require('cookie-parser')
+const compression = require('compression');
 
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
@@ -18,9 +19,23 @@ const { urlencoded } = require('express')
 
 const app = express()
 
+app.enable('trust proxy');
+
 //GLOBAL MIDDLEWARE
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
+// 1) GLOBAL MIDDLEWARES
+// Implement CORS
+app.use(cors());
+// Access-Control-Allow-Origin *
+// api.natours.com, front-end natours.com
+// app.use(cors({
+//   origin: 'https://www.natours.com'
+// }))
+
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());
 
 
 // Add secure header to the request
@@ -60,7 +75,9 @@ app.use(xss());
 // whitelist the tag of query so that duplicate will allow
 app.use(hpp({
     whitelist: ['duration', 'price', 'difficulty']
-}))
+}));
+
+app.use(compression());
 
 //Todat date and time stamp at header
 app.use((req, res, next) => {

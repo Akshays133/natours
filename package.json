@@ -4,7 +4,8 @@
   "description": "used express and mongodb",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "db:load": "node dev-data/data/import-dev-data.js --import",
     "db:delete": "node dev-data/data/import-dev-data.js --delete",
@@ -16,7 +17,9 @@
     "@babel/polyfill": "^7.12.1",
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "express-mongo-sanitize": "^2.2.0",
@@ -37,5 +40,8 @@
   "devDependencies": {
     "parcel-bundler": "^1.12.5",
     "slugify": "^1.6.5"
+  },
+  "engines": {
+    "node": "^14"
   }
 }
