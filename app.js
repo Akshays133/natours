@@ -14,6 +14,7 @@ const tourRouter = require('./routes/tourRoutes')
 const userRouter = require('./routes/userRoutes')
 const reviewRouter = require('./routes/reviewRoutes')
 const viewRouter = require('./routes/viewRoutes')
+const { urlencoded } = require('express')
 
 const app = express()
 
@@ -48,6 +49,7 @@ app.use('/api', limiter)
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
+app.use(urlencoded({ extended: true, limit: '10kb' }));
 
 //It prevent from some unwanted mongo $ sign error 
 app.use(mongoSanitize());

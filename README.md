@@ -1,3 +1,5 @@
-# natours
+# Natours Application
+
 Tours and travel web application
-in this we use nodejs for sever and backend service of api and mongodb for database.
+
+Built using modern technologies: [node.js], [express], [mongoDB], [mongoose] and many latest library for many functionality of compressing image & payments. 😁
