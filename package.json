@@ -9,7 +9,8 @@
     "start:prod": "NODE_ENV=production nodemon server.js",
     "db:load": "node dev-data/data/import-dev-data.js --import",
     "db:delete": "node dev-data/data/import-dev-data.js --delete",
-    "build:parcel": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "akshaysharma",
   "license": "ISC",
