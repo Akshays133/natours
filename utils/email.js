@@ -7,7 +7,7 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Akshay Sharma <${process.env.EMAIL_FROM}>`;
+    this.from = `Jonas Schmedtmann <${process.env.EMAIL_FROM}>`;
   }
 
   newTransport() {
@@ -17,8 +17,8 @@ module.exports = class Email {
         service: 'SendGrid',
         auth: {
           user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD,
-        },
+          pass: process.env.SENDGRID_PASSWORD
+        }
       });
     }
 
@@ -27,22 +27,19 @@ module.exports = class Email {
       port: process.env.EMAIL_PORT,
       auth: {
         user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
-      },
+        pass: process.env.EMAIL_PASSWORD
+      }
     });
   }
 
   // Send the actual email
   async send(template, subject) {
     // 1) Render HTML based on a pug template
-    const html = pug.renderFile(
-      `${__dirname}/../views/email/${template}.pug`,
-      {
-        firstName: this.firstName,
-        url: this.url,
-        subject,
-      }
-    );
+    const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
+      firstName: this.firstName,
+      url: this.url,
+      subject
+    });
 
     // 2) Define email options
     const mailOptions = {
@@ -50,7 +47,7 @@ module.exports = class Email {
       to: this.to,
       subject,
       html,
-      text: htmlToText.fromString(html),
+      text: htmlToText.fromString(html)
     };
 
     // 3) Create a transport and send email
@@ -68,31 +65,3 @@ module.exports = class Email {
     );
   }
 };
-
-
-// const sendEmail = async (option) => {
-//     //1) create transporter
-//     const transporter = nodemailer.createTransport({
-//         // service: 'Gmail',
-//         host: process.env.EMAIL_HOST,
-//         port: process.env.EMAIL_PORT,
-//         auth: {
-//             user: process.env.EMAIL_USERNAME,
-//             pass: process.env.EMAIL_PASSWORD
-//         }
-//     });
-    
-//     //2) Define email option
-//     const mailOptions = {
-//       from: 'Akshay Sharma <aksh123@gmail.com>',
-//       to: option.email,
-//       subject: option.subject,
-//       text: option.message,
-//       // html:
-//     };
-    
-//     //3) Send emails
-//     await transporter.sendMail(mailOptions);
-// }
-
-// module.exports = sendEmail;
