@@ -27,10 +27,10 @@ if (signupForm) {
   signupForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    const name = document.getElementById('name1').value;
+    const email = document.getElementById('email1').value;
+    const password = document.getElementById('password1').value;
+    const passwordConfirm = document.getElementById('passwordConfirm1').value;
 
     signup(name, email, password, passwordConfirm);
   });
